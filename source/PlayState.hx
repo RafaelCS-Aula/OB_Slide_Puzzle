@@ -1,8 +1,10 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.graphics.FlxGraphic;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -16,27 +18,32 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		// Choose an image from the image list
 		var imagePaths = [for (path in PuzzleImage.Images.keys()) path];
 		var rng = new FlxRandom().int(0, imagePaths.length - 1);
 		var choosenPath = imagePaths[rng];
-
-		// Create the table
-
 		var imageSize = PuzzleImage.Images[choosenPath];
 
-		var boardSize:Int = 10;
-		var gameBoard:Table = new Table(boardSize, boardSize);
-
+		// Board size in tiles
+		var boardSize:Int = 20;
+		// Setup Tile size
 		Tile.TileSize = Std.int(imageSize / boardSize);
 
+		// Make the board
+		var gameBoard:Table = new Table(boardSize, boardSize);
+
+		// Load the image for the puzzle
 		var dummySprite:FlxSprite = new FlxSprite(0, 0);
 		var tileSprite = dummySprite.loadGraphic(choosenPath, true, Tile.TileSize, Tile.TileSize);
 
+		FlxG.plugins.add(new FlxMouseEventManager());
+		FlxMouseEventManager.init();
+		// Create every tile
 		for (gX in 0...gameBoard.grid.length)
 		{
 			for (gY in 0...gameBoard.grid[gX].length)
 			{
-				if (gameBoard.grid[gX][gY] == false)
+				if (gameBoard.grid[gY][gX] == false)
 				{
 					tiles.add(null);
 					continue;
@@ -50,9 +57,6 @@ class PlayState extends FlxState
 				add(currentTile);
 			}
 		}
-		// Split Image
-
-		// add(tt);
 
 		super.create();
 	}

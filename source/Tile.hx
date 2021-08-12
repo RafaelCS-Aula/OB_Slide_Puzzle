@@ -1,7 +1,9 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.tile.FlxTileSpecial;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
 import flixel.text.FlxText;
@@ -53,9 +55,11 @@ class Tile extends FlxSprite
 			animation.play(".");
 		}
 		this.board = board;
+
+		FlxMouseEventManager.add(this, TryMove);
 	}
 
-	public function TryMove()
+	public function TryMove(t:Tile)
 	{
 		var movement = GetOpenDirection();
 		if (movement != null)
@@ -73,7 +77,7 @@ class Tile extends FlxSprite
 	{
 		var openDirection:FlxVector = null;
 
-		for (t in 0...moveDirections.length - 1)
+		for (t in 0...moveDirections.length)
 		{
 			var newX:Int = boardX + Std.int(moveDirections[t].x);
 			var newY:Int = boardY + Std.int(moveDirections[t].y);
@@ -82,10 +86,13 @@ class Tile extends FlxSprite
 				if (board.grid[newX][newY] == false)
 				{
 					openDirection = moveDirections[t];
+					trace("Can move in direction: " + moveDirections[t]);
+					return openDirection;
 				}
 			}
 			catch (e)
 			{
+				trace("This direction leads to outside the grid: " + moveDirections[t]);
 				continue;
 			}
 		}
@@ -101,10 +108,12 @@ class Tile extends FlxSprite
 		board.grid[boardX][boardY] = false;
 		board.grid[newX][newY] = true;
 
-		super.x = boardX * TileSize;
-		super.y = boardY * TileSize;
-
 		boardX = newX;
 		boardY = newY;
+
+		x = boardX * TileSize;
+		y = boardY * TileSize;
+
+		trace("Moving to: " + newX + "," + newY);
 	}
 }
