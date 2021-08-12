@@ -1,8 +1,10 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.addons.tile.FlxTileSpecial;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
 class Tile extends FlxSprite
@@ -24,7 +26,7 @@ class Tile extends FlxSprite
 		new FlxVector(-1, 0)
 	];
 
-	public function new(boardX:Int, boardY:Int, board:Table, solutionX:Int, solutionY:Int, sprite:FlxSprite = null)
+	public function new(boardX:Int, boardY:Int, board:Table, solutionX:Int, solutionY:Int, sprite:FlxSprite = null, imageIndex = 0)
 	{
 		trace("ne tile coming up!");
 		this.boardX = boardX;
@@ -37,12 +39,18 @@ class Tile extends FlxSprite
 		{
 			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
 
-			makeGraphic(300, 300, FlxColor.BLUE);
-			alpha = 1;
+			var gridString = boardX + "," + boardY;
+			var indexString = Std.string(imageIndex);
+			var text = new FlxText(x, y, TileSize, indexString);
+			super.loadGraphicFromSprite(text);
+			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
+			// alpha = 1;
 		}
 		else
 		{
 			super.loadGraphicFromSprite(sprite);
+			animation.add(".", [imageIndex], 1);
+			animation.play(".");
 		}
 		this.board = board;
 	}
