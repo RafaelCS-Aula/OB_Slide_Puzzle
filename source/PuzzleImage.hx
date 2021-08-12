@@ -10,10 +10,11 @@ class PuzzleImage
 	public var Width(default, null):Int;
 	public var Height(default, null):Int;
 
-	public function new(path:String, width:Int, height:Int)
-	{
-		Path = path;
-		Width = width;
-		Height = height;
-	}
+	public static var Images(default, null):haxe.ds.Map<String, Int> = ["assets/images/PuzzleImages/placa7.png" => 647];
+	/*public function new(path:String, width:Int, height:Int)
+		{
+			Path = path;
+			Width = width;
+			Height = height;
+	}*/
 }
