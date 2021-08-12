@@ -5,31 +5,35 @@ import flixel.FlxState;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import flixel.tile.FlxTilemap;
+import haxe.ds.List;
 import openfl.display.Tilemap;
 
 class PlayState extends FlxState
 {
-	var tiles:Array<Tile>;
+	var tiles:List<Tile> = new List<Tile>();
 
 	override public function create()
 	{
 		// Create the table
 		var pictureToUse:FlxGraphicAsset = AssetPaths.placa7__png;
 		var gameBoard:Table = new Table(10, 10);
-		var map = new FlxTilemap();
-		map.graphic = pictureToUse;
 
 		var dummySprite:FlxSprite = new FlxSprite(0, 0);
 		var tileSprite = dummySprite.loadGraphic(pictureToUse, true, Tile.TileSize, Tile.TileSize);
 
-		for (gX in 0...gameBoard.grid.length - 1)
+		for (gX in 0...gameBoard.grid.length)
 		{
-			for (gY in 0...gameBoard.grid[gX].length - 1)
+			for (gY in 0...gameBoard.grid[gX].length)
 			{
-				var currentSprite = map.tileToSprite(gX, gY);
+				if (gameBoard.grid[gX][gY] == false)
+				{
+					continue;
+				}
+
 				var currentTile:Tile;
-				currentTile = new Tile(gX, gY, gameBoard, gX, gY);
+				currentTile = new Tile(gX, gY, gameBoard, gX, gY, tileSprite, tiles.length);
+				trace("Added tile at  " + gX + "," + gY);
+				tiles.add(currentTile);
 
 				add(currentTile);
 			}
