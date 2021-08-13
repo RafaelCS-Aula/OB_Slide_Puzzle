@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.ui.FlxButtonPlus;
+import flixel.addons.ui.FlxSlider;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
@@ -64,7 +66,15 @@ class PlayState extends FlxState
 			}
 		}
 		ShuffleTiles(tileCoords);
+		var slider = new FlxSlider(PlayState, "boardSize", 50, boardSize * Tile.TileSize + Tile.TileSize, 3, 25, 200, 20, 15, 0xFFFFFFFF, 0xFFCC0000);
+		slider.decimals = 0;
+		slider.nameLabel.text = "Choose the Board Size";
+		slider.hoverAlpha = 1;
 
+		var restart = new FlxButtonPlus(300, slider.y, OnRestartClicked, "New Puzzle", 120, 30);
+
+		add(restart);
+		add(slider);
 		super.create();
 	}
 
@@ -101,27 +111,6 @@ class PlayState extends FlxState
 				continue;
 			tileArray[t].ForceMove(Std.int(tileCoordArray[t].x), Std.int(tileCoordArray[t].y));
 		}
-
-		// trace("The hole is at:" + holeX + "," + holeY);
-
-		/*for (x in 0...xIndexArray.length)
-			{
-				for (y in 0...yIndexArray.length)
-				{
-					// Dont cover up the hole
-					if (xIndexArray[x] == holeX && yIndexArray[y] == holeY)
-					{
-						continue;
-					}
-
-					var iterationTile = tileArray[tileIteratorCount];
-					if (iterationTile != null)
-					{
-						iterationTile.ForceMove(xIndexArray[x], yIndexArray[y]);
-					}
-					tileIteratorCount++;
-				}
-		}*/
 	}
 
 	public function CheckWin():Bool
@@ -138,5 +127,10 @@ class PlayState extends FlxState
 			}
 		}
 		return true;
+	}
+
+	public function OnRestartClicked()
+	{
+		FlxG.resetState();
 	}
 }
