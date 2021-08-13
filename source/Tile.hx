@@ -13,8 +13,8 @@ class Tile extends FlxSprite
 {
 	private var board:Table;
 
-	private var boardX:Int;
-	private var boardY:Int;
+	public var boardX(default, null):Int;
+	public var boardY(default, null):Int;
 
 	private var solutionBoardX:Int;
 	private var solutionBoardY:Int;
@@ -28,15 +28,16 @@ class Tile extends FlxSprite
 		new FlxVector(-1, 0)
 	];
 
-	public function new(boardX:Int, boardY:Int, board:Table, solutionX:Int, solutionY:Int, sprite:FlxSprite = null, imageIndex = 0)
+	public function new(solutionX:Int, solutionY:Int, board:Table, sprite:FlxSprite = null, imageIndex = 0)
 	{
 		trace("ne tile coming up!");
-		this.boardX = boardX;
-		this.boardY = boardY;
+		this.boardX = solutionX;
+		this.boardY = solutionY;
 		solutionBoardX = solutionX;
 		solutionBoardY = solutionY;
 
 		super(boardX * TileSize, boardY * TileSize);
+		trace("Spawning Tile at pos:" + x + "," + y);
 		if (sprite == null)
 		{
 			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
@@ -115,5 +116,18 @@ class Tile extends FlxSprite
 		y = boardY * TileSize;
 
 		trace("Moving to: " + newX + "," + newY);
+	}
+
+	public function ForceMove(newX:Int, newY:Int)
+	{
+		// board.grid[boardX][boardY] = false;
+		// board.grid[newX][newY] = true;
+		x = newX * TileSize;
+		y = newY * TileSize;
+		boardX = newX;
+		boardY = newY;
+
+		trace("Moving to grid: " + newX + "," + newY);
+		trace("Moving to position: " + x + "," + y);
 	}
 }

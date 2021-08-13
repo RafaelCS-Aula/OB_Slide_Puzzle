@@ -15,6 +15,8 @@ import openfl.display.Tilemap;
 class PlayState extends FlxState
 {
 	var tiles:List<Tile> = new List<Tile>();
+	// Board size in tiles
+	var boardSize:Int = 3;
 
 	override public function create()
 	{
@@ -24,8 +26,6 @@ class PlayState extends FlxState
 		var choosenPath = imagePaths[rng];
 		var imageSize = PuzzleImage.Images[choosenPath];
 
-		// Board size in tiles
-		var boardSize:Int = 20;
 		// Setup Tile size
 		Tile.TileSize = Std.int(imageSize / boardSize);
 
@@ -38,6 +38,9 @@ class PlayState extends FlxState
 
 		FlxG.plugins.add(new FlxMouseEventManager());
 		FlxMouseEventManager.init();
+
+		var emptySquareX:Int = 0;
+		var emptySquareY:Int = 0;
 		// Create every tile
 		for (gX in 0...gameBoard.grid.length)
 		{
@@ -45,19 +48,21 @@ class PlayState extends FlxState
 			{
 				if (gameBoard.grid[gY][gX] == false)
 				{
+					emptySquareX = gY;
+					emptySquareY = gX;
 					tiles.add(null);
 					continue;
 				}
 
 				var currentTile:Tile;
-				currentTile = new Tile(gY, gX, gameBoard, gY, gX, tileSprite, tiles.length);
+				currentTile = new Tile(gY, gX, gameBoard, tileSprite, tiles.length);
 				// trace("Added tile at  " + gX + "," + gY);
 				tiles.add(currentTile);
 
 				add(currentTile);
 			}
 		}
-
+		ShuffleTiles(emptySquareX, emptySquareY);
 		super.create();
 	}
 
@@ -68,5 +73,35 @@ class PlayState extends FlxState
 			{
 				tiles[t].draw();
 		}*/
+	}
+
+	public function ShuffleTiles(holeX:Int, holeY:Int)
+	{
+		var xIndexArray:Array<Int> = [for (x in 0...boardSize) x];
+		var yIndexArray:Array<Int> = [for (y in 0...boardSize) y];
+
+		var shuffler = new FlxRandom();
+		shuffler.shuffle(xIndexArray);
+		shuffler.shuffle(yIndexArray);
+
+		var emptyX;
+		var emptyY;
+
+		var tileIteratorCount:Int = 0;
+		var iteratorOnEmpty:Int = 0;
+		var tileArray = [for (t in tiles) t];
+
+		for (x in 0...xIndexArray.length)
+		{
+			for (y in 0...yIndexArray.length)
+			{
+				var iterationTile = tileArray[tileIteratorCount];
+				if (iterationTile != null || (xIndexArray[x] != holeX && yIndexArray[y] != holeY))
+				{
+					iterationTile.ForceMove(xIndexArray[x], yIndexArray[y]);
+				}
+				tileIteratorCount++;
+			}
+		}
 	}
 }
