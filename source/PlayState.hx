@@ -3,20 +3,16 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.graphics.FlxGraphic;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
-import flixel.math.FlxRect;
-import flixel.system.FlxAssets.FlxGraphicAsset;
-import flixel.text.FlxText;
+import flixel.math.FlxVector;
 import haxe.ds.List;
-import openfl.display.Tilemap;
 
 class PlayState extends FlxState
 {
 	var tiles:List<Tile> = new List<Tile>();
 	// Board size in tiles
-	var boardSize:Int = 3;
+	var boardSize:Int = 4;
 
 	override public function create()
 	{
@@ -41,6 +37,8 @@ class PlayState extends FlxState
 
 		var emptySquareX:Int = 0;
 		var emptySquareY:Int = 0;
+
+		var tileCoords:List<FlxVector> = new List<FlxVector>();
 		// Create every tile
 		for (gX in 0...gameBoard.grid.length)
 		{
@@ -50,19 +48,21 @@ class PlayState extends FlxState
 				{
 					emptySquareX = gY;
 					emptySquareY = gX;
-					tiles.add(null);
+					// tiles.add(null);
 					continue;
 				}
 
 				var currentTile:Tile;
 				currentTile = new Tile(gY, gX, gameBoard, tileSprite, tiles.length);
+
 				// trace("Added tile at  " + gX + "," + gY);
 				tiles.add(currentTile);
+				tileCoords.add(new FlxVector(gY, gX));
 
 				add(currentTile);
 			}
 		}
-		ShuffleTiles(emptySquareX, emptySquareY);
+		ShuffleTiles(tileCoords);
 		super.create();
 	}
 
@@ -75,7 +75,7 @@ class PlayState extends FlxState
 		}
 	}
 
-	public function ShuffleTiles(holeX:Int, holeY:Int)
+	public function ShuffleTiles(/*holeX:Int, holeY:Int*/ tileCoords:List<FlxVector>)
 	{
 		var xIndexArray:Array<Int> = [for (x in 0...boardSize) x];
 		var yIndexArray:Array<Int> = [for (y in 0...boardSize) y];
@@ -90,25 +90,36 @@ class PlayState extends FlxState
 		var tileIteratorCount:Int = 0;
 		var iteratorOnEmpty:Int = 0;
 		var tileArray = [for (t in tiles) t];
-		trace("The hole is at:" + holeX + "," + holeY);
-		for (x in 0...xIndexArray.length)
-		{
-			for (y in 0...yIndexArray.length)
-			{
-				// Dont cover up the hole
-				if (xIndexArray[x] == holeX && yIndexArray[y] == holeY)
-				{
-					continue;
-				}
+		var tileCoordArray = [for (v in tileCoords) v];
+		shuffler.shuffle(tileCoordArray);
 
-				var iterationTile = tileArray[tileIteratorCount];
-				if (iterationTile != null)
-				{
-					iterationTile.ForceMove(xIndexArray[x], yIndexArray[y]);
-				}
-				tileIteratorCount++;
-			}
+		for (t in 0...tileArray.length)
+		{
+			if (tileArray[t] == null)
+				continue;
+			tileArray[t].ForceMove(Std.int(tileCoordArray[t].x), Std.int(tileCoordArray[t].y));
 		}
+
+		// trace("The hole is at:" + holeX + "," + holeY);
+
+		/*for (x in 0...xIndexArray.length)
+			{
+				for (y in 0...yIndexArray.length)
+				{
+					// Dont cover up the hole
+					if (xIndexArray[x] == holeX && yIndexArray[y] == holeY)
+					{
+						continue;
+					}
+
+					var iterationTile = tileArray[tileIteratorCount];
+					if (iterationTile != null)
+					{
+						iterationTile.ForceMove(xIndexArray[x], yIndexArray[y]);
+					}
+					tileIteratorCount++;
+				}
+		}*/
 	}
 
 	public function CheckWin():Bool
