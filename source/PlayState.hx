@@ -16,7 +16,7 @@ class PlayState extends FlxState
 {
 	var tiles:List<Tile> = new List<Tile>();
 	// Board size in tiles
-	var boardSize:Int = 3;
+	var boardSize:Int = 4;
 
 	override public function create()
 	{
