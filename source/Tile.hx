@@ -7,6 +7,7 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 class Tile extends FlxSprite
@@ -121,18 +122,21 @@ class Tile extends FlxSprite
 		boardX = newX;
 		boardY = newY;
 
-		x = boardX * TileSize;
-		y = boardY * TileSize;
+		FlxTween.tween(this, {x: (boardX * TileSize), y: (boardY * TileSize)}, 0.08);
+		// x = boardX * TileSize;
+		// y = boardY * TileSize;
 
 		trace("Moving to: " + newX + "," + newY);
 	}
 
 	public function ForceMove(newX:Int, newY:Int)
 	{
-		x = newX * TileSize;
-		y = newY * TileSize;
+		// x = newX * TileSize;
+		// y = newY * TileSize;
+
 		boardX = newX;
 		boardY = newY;
+		FlxTween.tween(this, {x: (boardX * TileSize), y: (boardY * TileSize)}, 0.1);
 
 		trace("Moving to grid: " + newX + "," + newY);
 		trace("Moving to position: " + x + "," + y);
