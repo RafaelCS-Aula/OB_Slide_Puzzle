@@ -16,7 +16,7 @@ class PlayState extends FlxState
 {
 	var tiles:List<Tile> = new List<Tile>();
 	// Board size in tiles
-	var boardSize:Int = 4;
+	var boardSize:Int = 3;
 
 	override public function create()
 	{
@@ -95,10 +95,12 @@ class PlayState extends FlxState
 		{
 			for (y in 0...yIndexArray.length)
 			{
+				// Dont cover up the hole
 				if (xIndexArray[x] == holeX && yIndexArray[y] == holeY)
 				{
 					continue;
 				}
+
 				var iterationTile = tileArray[tileIteratorCount];
 				if (iterationTile != null)
 				{
