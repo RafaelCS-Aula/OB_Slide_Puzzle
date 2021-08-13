@@ -16,6 +16,8 @@ class Tile extends FlxSprite
 	public var boardX(default, null):Int;
 	public var boardY(default, null):Int;
 
+	public var OnSpot(default, null):Bool = false;
+
 	private var solutionBoardX:Int;
 	private var solutionBoardY:Int;
 
@@ -37,6 +39,7 @@ class Tile extends FlxSprite
 		solutionBoardY = solutionY;
 
 		super(boardX * TileSize, boardY * TileSize);
+
 		trace("Spawning Tile at pos:" + x + "," + y);
 		if (sprite == null)
 		{
@@ -58,6 +61,12 @@ class Tile extends FlxSprite
 		this.board = board;
 
 		FlxMouseEventManager.add(this, TryMove);
+	}
+
+	public override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		OnSpot = boardX == solutionBoardX && boardY == solutionBoardY;
 	}
 
 	public function TryMove(t:Tile)
@@ -120,8 +129,6 @@ class Tile extends FlxSprite
 
 	public function ForceMove(newX:Int, newY:Int)
 	{
-		// board.grid[boardX][boardY] = false;
-		// board.grid[newX][newY] = true;
 		x = newX * TileSize;
 		y = newY * TileSize;
 		boardX = newX;

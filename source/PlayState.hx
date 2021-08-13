@@ -69,10 +69,10 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		/*for (t in 0...tiles.length - 1)
-			{
-				tiles[t].draw();
-		}*/
+		if (CheckWin())
+		{
+			trace("================YOU'VE WON================");
+		}
 	}
 
 	public function ShuffleTiles(holeX:Int, holeY:Int)
@@ -90,18 +90,38 @@ class PlayState extends FlxState
 		var tileIteratorCount:Int = 0;
 		var iteratorOnEmpty:Int = 0;
 		var tileArray = [for (t in tiles) t];
-
+		trace("The hole is at:" + holeX + "," + holeY);
 		for (x in 0...xIndexArray.length)
 		{
 			for (y in 0...yIndexArray.length)
 			{
+				if (xIndexArray[x] == holeX && yIndexArray[y] == holeY)
+				{
+					continue;
+				}
 				var iterationTile = tileArray[tileIteratorCount];
-				if (iterationTile != null || (xIndexArray[x] != holeX && yIndexArray[y] != holeY))
+				if (iterationTile != null)
 				{
 					iterationTile.ForceMove(xIndexArray[x], yIndexArray[y]);
 				}
 				tileIteratorCount++;
 			}
 		}
+	}
+
+	public function CheckWin():Bool
+	{
+		for (t in tiles)
+		{
+			if (t == null)
+			{
+				continue;
+			}
+			if (!t.OnSpot)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }
