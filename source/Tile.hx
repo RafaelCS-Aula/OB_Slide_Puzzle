@@ -22,7 +22,8 @@ class Tile extends FlxSprite
 	private var solutionBoardX:Int;
 	private var solutionBoardY:Int;
 
-	public static var TileSize:Int = 30;
+	public static var TileWidth:Int = 30;
+	public static var TileHeight:Int = 30;
 
 	private var moveDirections:Array<FlxVector> = [
 		new FlxVector(0, 1),
@@ -39,7 +40,7 @@ class Tile extends FlxSprite
 		solutionBoardX = solutionX;
 		solutionBoardY = solutionY;
 
-		super(boardX * TileSize, boardY * TileSize);
+		super(boardX * TileWidth, boardY * TileHeight);
 
 		trace("Spawning Tile at pos:" + x + "," + y);
 		if (sprite == null)
@@ -48,7 +49,7 @@ class Tile extends FlxSprite
 
 			var gridString = boardX + "," + boardY;
 			var indexString = Std.string(imageIndex);
-			var text = new FlxText(x, y, TileSize, indexString);
+			var text = new FlxText(x, y, TileWidth, indexString);
 			super.loadGraphicFromSprite(text);
 			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
 			// alpha = 1;
@@ -122,7 +123,7 @@ class Tile extends FlxSprite
 		boardX = newX;
 		boardY = newY;
 
-		FlxTween.tween(this, {x: (boardX * TileSize), y: (boardY * TileSize)}, 0.08);
+		FlxTween.tween(this, {x: (boardX * TileWidth), y: (boardY * TileHeight)}, 0.08);
 		// x = boardX * TileSize;
 		// y = boardY * TileSize;
 
@@ -136,7 +137,7 @@ class Tile extends FlxSprite
 
 		boardX = newX;
 		boardY = newY;
-		FlxTween.tween(this, {x: (boardX * TileSize), y: (boardY * TileSize)}, 0.1);
+		FlxTween.tween(this, {x: (boardX * TileWidth), y: (boardY * TileHeight)}, 0.1);
 
 		trace("Moving to grid: " + newX + "," + newY);
 		trace("Moving to position: " + x + "," + y);

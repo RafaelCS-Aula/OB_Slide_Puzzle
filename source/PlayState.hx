@@ -15,25 +15,35 @@ class PlayState extends FlxState
 	var tiles:List<Tile> = new List<Tile>();
 
 	// Board size in tiles
-	static var boardSize:Int = 4;
+	public static var boardSize:Int = 4;
+
+	public static var SquareBoard:Bool = false;
 
 	override public function create()
 	{
 		// Choose an image from the image list
-		var imagePaths = [for (path in PuzzleImage.Images.keys()) path];
+		var imagePaths;
+
+		if (SquareBoard)
+			imagePaths = [for (path in PuzzleImage.SquareImages.keys()) path];
+		else
+			imagePaths = [for (path in PuzzleImage.Images.keys()) path];
+
 		var rng = new FlxRandom().int(0, imagePaths.length - 1);
 		var choosenPath = imagePaths[rng];
-		var imageSize = PuzzleImage.Images[choosenPath];
+		var imageWidth = PuzzleImage.Images[choosenPath][0];
+		var imageHeight = PuzzleImage.Images[choosenPath][1];
 
 		// Setup Tile size
-		Tile.TileSize = Std.int(imageSize / boardSize);
+		Tile.TileWidth = Std.int(imageWidth / boardSize);
+		Tile.TileHeight = Std.int(imageHeight / boardSize);
 
 		// Make the board
 		var gameBoard:Table = new Table(boardSize, boardSize);
 
 		// Load the image for the puzzle
 		var dummySprite:FlxSprite = new FlxSprite(0, 0);
-		var tileSprite = dummySprite.loadGraphic(choosenPath, true, Tile.TileSize, Tile.TileSize);
+		var tileSprite = dummySprite.loadGraphic(choosenPath, true, Tile.TileWidth, Tile.TileHeight);
 
 		FlxG.plugins.add(new FlxMouseEventManager());
 		FlxMouseEventManager.init();
@@ -66,7 +76,7 @@ class PlayState extends FlxState
 			}
 		}
 		ShuffleTiles(tileCoords);
-		var slider = new FlxSlider(PlayState, "boardSize", 50, boardSize * Tile.TileSize + Tile.TileSize, 3, 25, 200, 20, 15, 0xFFFFFFFF, 0xFFCC0000);
+		var slider = new FlxSlider(PlayState, "boardSize", 50, boardSize * Tile.TileHeight + 30, 3, 25, 200, 20, 15, 0xFFFFFFFF, 0xFFCC0000);
 		slider.decimals = 0;
 		slider.nameLabel.text = "Choose the Board Size";
 		slider.hoverAlpha = 1;
@@ -96,11 +106,6 @@ class PlayState extends FlxState
 		shuffler.shuffle(xIndexArray);
 		shuffler.shuffle(yIndexArray);
 
-		var emptyX;
-		var emptyY;
-
-		var tileIteratorCount:Int = 0;
-		var iteratorOnEmpty:Int = 0;
 		var tileArray = [for (t in tiles) t];
 		var tileCoordArray = [for (v in tileCoords) v];
 		shuffler.shuffle(tileCoordArray);
