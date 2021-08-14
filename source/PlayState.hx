@@ -7,9 +7,11 @@ import flixel.addons.ui.FlxButtonPlus;
 import flixel.addons.ui.FlxSlider;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.mouse.FlxMouseEventManager;
+import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
 import flixel.util.FlxColor;
+import haxe.display.Display.Package;
 import haxe.ds.List;
 
 class PlayState extends FlxState
@@ -30,6 +32,9 @@ class PlayState extends FlxState
 		var imageHeight = 0;
 		var choosenPath = "";
 
+		var setBoardSize:Int = PuzzleImage.boardSize;
+		setBoardSize = Math.round(setBoardSize);
+		trace(setBoardSize);
 		if (PuzzleImage.SquareBoard)
 		{
 			imagePaths = [for (path in PuzzleImage.SquareImages.keys()) path];
@@ -50,11 +55,11 @@ class PlayState extends FlxState
 		choosenImagePath = choosenPath;
 
 		// Setup Tile size
-		Tile.TileWidth = Std.int(imageWidth / PuzzleImage.boardSize);
-		Tile.TileHeight = Std.int(imageHeight / PuzzleImage.boardSize);
+		Tile.TileWidth = Std.int(imageWidth / setBoardSize);
+		Tile.TileHeight = Std.int(imageHeight / setBoardSize);
 
 		// Make the board
-		var gameBoard:Table = new Table(PuzzleImage.boardSize, PuzzleImage.boardSize);
+		var gameBoard:Table = new Table(setBoardSize, setBoardSize);
 
 		// Load the image for the puzzle
 		var dummySprite:FlxSprite = new FlxSprite(0, 0);
@@ -99,6 +104,14 @@ class PlayState extends FlxState
 		{
 			FlxG.resetState();
 		}
+		// If it for some reason adds too many tiles reset and try again
+		if (tiles.length > (setBoardSize * setBoardSize) - 1)
+		{
+			while (tiles.length > (setBoardSize * setBoardSize) - 1)
+			{
+				tiles.remove(tiles.last());
+			}
+		}
 
 		ShuffleTiles(tileCoords);
 
@@ -106,8 +119,7 @@ class PlayState extends FlxState
 
 		trace("Empty Square at: " + emptySquareX + "," + emptySquareY);
 
-		add(new SettingsUI(300, PuzzleImage.boardSize * Tile.TileHeight + 30, 50, PuzzleImage.boardSize * Tile.TileHeight, 430,
-			PuzzleImage.boardSize * Tile.TileHeight + 50));
+		add(new SettingsUI(300, setBoardSize * Tile.TileHeight + 30, 50, setBoardSize * Tile.TileHeight, 430, setBoardSize * Tile.TileHeight + 50));
 		checkWinTimer = 4;
 		super.create();
 	}
@@ -128,13 +140,14 @@ class PlayState extends FlxState
 
 	public function ShuffleTiles(/*holeX:Int, holeY:Int*/ tileCoords:List<FlxVector>)
 	{
-		var xIndexArray:Array<Int> = [for (x in 0...PuzzleImage.boardSize) x];
-		var yIndexArray:Array<Int> = [for (y in 0...PuzzleImage.boardSize) y];
+		/*var xIndexArray:Array<Int> = [for (x in 0...setBoardSize) x];
+			var yIndexArray:Array<Int> = [for (y in 0...setBoardSize) y];
+
+
+			shuffler.shuffle(xIndexArray);
+			shuffler.shuffle(yIndexArray); */
 
 		var shuffler = new FlxRandom();
-		shuffler.shuffle(xIndexArray);
-		shuffler.shuffle(yIndexArray);
-
 		var tileArray = [for (t in tiles) t];
 		var tileCoordArray = [for (v in tileCoords) v];
 		shuffler.shuffle(tileCoordArray);

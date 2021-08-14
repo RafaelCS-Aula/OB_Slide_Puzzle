@@ -28,7 +28,6 @@ class SettingsUI extends FlxTypedGroup<FlxSprite>
 		slider.decimals = 0;
 		slider.nameLabel.text = "Choose the Board Size";
 		slider.hoverAlpha = 1;
-
 		add(startButton);
 		add(squareButton);
 		add(squareToggleText);
@@ -38,6 +37,7 @@ class SettingsUI extends FlxTypedGroup<FlxSprite>
 	public override function update(elapsed:Float)
 	{
 		squareToggleText.text = squareToggleLabel;
+
 		super.update(elapsed);
 	}
 
