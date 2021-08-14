@@ -4,7 +4,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="slide_puzzle" file="slide_puzzle" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Obidos - Sliding Puzzle" file="OB_SlidePuzzle" main="Main" version="1.1" company="Obidudes2021" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
