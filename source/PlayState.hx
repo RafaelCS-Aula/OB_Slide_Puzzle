@@ -67,31 +67,39 @@ class PlayState extends FlxState
 		tiles.clear();
 		var setupGrid = gameBoard.grid;
 		var imageTileIndex = 0;
-		// Create every tile
-		for (gX in 0...setupGrid.length)
-		{
-			for (gY in 0...setupGrid[gX].length)
+
+		try
+		{ // Create every tile
+			for (gX in 0...setupGrid.length)
 			{
-				if (gameBoard.grid[gY][gX] == false)
+				for (gY in 0...setupGrid[gX].length)
 				{
-					emptySquareX = gY;
-					emptySquareY = gX;
+					if (gameBoard.grid[gY][gX] == false)
+					{
+						emptySquareX = gY;
+						emptySquareY = gX;
+						imageTileIndex++;
+						continue;
+					}
+
+					var currentTile:Tile;
+					currentTile = new Tile(gY, gX, gameBoard, tileSprite, imageTileIndex);
+
 					imageTileIndex++;
-					continue;
+					// trace("Added tile at  " + gX + "," + gY);
+					tiles.add(currentTile);
+					tileGroup.add(currentTile);
+					tileCoords.add(new FlxVector(gY, gX));
+
+					add(currentTile);
 				}
-
-				var currentTile:Tile;
-				currentTile = new Tile(gY, gX, gameBoard, tileSprite, imageTileIndex);
-
-				imageTileIndex++;
-				// trace("Added tile at  " + gX + "," + gY);
-				tiles.add(currentTile);
-				tileGroup.add(currentTile);
-				tileCoords.add(new FlxVector(gY, gX));
-
-				add(currentTile);
 			}
 		}
+		catch (e)
+		{
+			FlxG.resetState();
+		}
+
 		ShuffleTiles(tileCoords);
 
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
