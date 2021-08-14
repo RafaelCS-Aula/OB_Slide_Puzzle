@@ -42,7 +42,7 @@ class Tile extends FlxSprite
 
 		super(boardX * TileWidth, boardY * TileHeight);
 
-		trace("Spawning Tile at pos:" + x + "," + y);
+		// trace("Spawning Tile at pos:" + x + "," + y);
 		if (sprite == null)
 		{
 			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
@@ -62,7 +62,7 @@ class Tile extends FlxSprite
 		}
 		this.board = board;
 
-		FlxMouseEventManager.add(this, TryMove);
+		FlxMouseEventManager.add(this, TryMove /*, function(t:Tile) {}, OnMouseOver, OnMouseOut*/);
 	}
 
 	public override function update(elapsed:Float)
@@ -139,7 +139,7 @@ class Tile extends FlxSprite
 		boardY = newY;
 		FlxTween.tween(this, {x: (boardX * TileWidth), y: (boardY * TileHeight)}, 0.1);
 
-		trace("Moving to grid: " + newX + "," + newY);
-		trace("Moving to position: " + x + "," + y);
+		// trace("Moving to grid: " + newX + "," + newY);
+		// trace("Moving to position: " + x + "," + y);
 	}
 }

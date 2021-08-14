@@ -1,3 +1,5 @@
+package;
+
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -6,6 +8,10 @@ import openfl.utils.IAssetCache;
 
 class PuzzleImage
 {
+	public static var boardSize:Int = 4;
+
+	public static var SquareBoard:Bool = false;
+
 	public static var Images(default, null):haxe.ds.Map<String, Array<Int>> = [
 		"assets/images/PuzzleImages/placa7.png" => [647, 647],
 		AssetPaths.datas_edificios4__jpg.toString() => [800, 600],

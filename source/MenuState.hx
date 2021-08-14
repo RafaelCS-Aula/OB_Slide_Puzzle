@@ -1,8 +1,11 @@
+package;
+
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.text.FlxTextField;
 import flixel.addons.ui.FlxButtonPlus;
 import flixel.addons.ui.FlxSlider;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
 
 class MenuState extends FlxState
@@ -17,6 +20,8 @@ class MenuState extends FlxState
 
 		add(titleText);
 		add(new SettingsUI(300, 450, 250, 500, 250, 600));
+		FlxG.plugins.add(new FlxMouseEventManager());
+		FlxMouseEventManager.init();
 		super.create();
 	}
 }
