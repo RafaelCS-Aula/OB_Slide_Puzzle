@@ -14,7 +14,8 @@ class PuzzleImage
 		AssetPaths.igreja_scm1__png.toString() => [600, 800],
 		AssetPaths.muralha5__png.toString() => [600, 800],
 		AssetPaths.muralha_moinho2__png.toString() => [600, 800],
-		AssetPaths.torre_cerco1__jpg.toString() => [800, 600]
+		AssetPaths.torre_cerco1__jpg.toString() => [800, 600],
+		AssetPaths.planta_vila__png.toString() => [800, 564]
 	];
 	public static var SquareImages(default, null):haxe.ds.Map<String, Array<Int>> = [
 		"assets/images/PuzzleImages/placa7.png" => [647, 647],
@@ -24,6 +25,7 @@ class PuzzleImage
 		AssetPaths.igreja_scm1_sqr__png.toString() => [800, 800],
 		AssetPaths.muralha5_sqr__png.toString() => [800, 800],
 		AssetPaths.muralha_moinho2_sqr__png.toString() => [800, 800],
-		AssetPaths.torre_cerco1_sqr__jpg.toString() => [800, 800]
+		AssetPaths.torre_cerco1_sqr__jpg.toString() => [800, 800],
+		AssetPaths.planta_vila_sqr__png.toString() => [800, 800]
 	];
 }
