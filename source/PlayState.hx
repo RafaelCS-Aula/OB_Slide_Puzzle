@@ -3,15 +3,10 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.ui.FlxButtonPlus;
-import flixel.addons.ui.FlxSlider;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.mouse.FlxMouseEventManager;
-import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
 import flixel.math.FlxVector;
 import flixel.util.FlxColor;
-import haxe.display.Display.Package;
 import haxe.ds.List;
 
 class PlayState extends FlxState
