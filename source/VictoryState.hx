@@ -13,15 +13,15 @@ class VictoryState extends FlxState
 	{
 		fullImage = new FlxSprite(0, 0);
 		fullImage.loadGraphic(pathToImage);
-		add(fullImage);
+		// add(fullImage);
 		super();
 	}
 
 	public override function create()
 	{
 		add(new SettingsUI(300, PuzzleImage.boardSize * Tile.TileHeight + 30, 50, PuzzleImage.boardSize * Tile.TileHeight, 430,
-			PuzzleImage.boardSize * Tile.TileHeight));
-
+			PuzzleImage.boardSize * Tile.TileHeight + 50));
+		add(fullImage);
 		FlxG.camera.flash(FlxColor.GREEN, 0.3);
 		super.create();
 	}

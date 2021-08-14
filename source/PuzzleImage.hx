@@ -10,7 +10,7 @@ class PuzzleImage
 {
 	public static var boardSize:Int = 4;
 
-	public static var SquareBoard:Bool = false;
+	public static var SquareBoard:Bool = true;
 
 	public static var Images(default, null):haxe.ds.Map<String, Array<Int>> = [
 		"assets/images/PuzzleImages/placa7.png" => [647, 647],

@@ -49,7 +49,7 @@ class Tile extends FlxSprite
 
 			var gridString = boardX + "," + boardY;
 			var indexString = Std.string(imageIndex);
-			var text = new FlxText(x, y, TileWidth, indexString);
+			var text = new FlxText(x, y, TileWidth, gridString);
 			super.loadGraphicFromSprite(text);
 			// makeGraphic(TileSize, TileSize, new FlxRandom().color());
 			// alpha = 1;
@@ -57,7 +57,7 @@ class Tile extends FlxSprite
 		else
 		{
 			super.loadGraphicFromSprite(sprite);
-			animation.add(".", [imageIndex], 1);
+			animation.add(".", [imageIndex], 0);
 			animation.play(".");
 		}
 		this.board = board;
@@ -68,7 +68,7 @@ class Tile extends FlxSprite
 	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		OnSpot = boardX == solutionBoardX && boardY == solutionBoardY;
+		OnSpot = (boardX == solutionBoardX && boardY == solutionBoardY);
 	}
 
 	public function TryMove(t:Tile)
@@ -137,7 +137,7 @@ class Tile extends FlxSprite
 
 		boardX = newX;
 		boardY = newY;
-		FlxTween.tween(this, {x: (boardX * TileWidth), y: (boardY * TileHeight)}, 0.1);
+		FlxTween.tween(this, {x: (boardX * TileWidth), y: (boardY * TileHeight)}, 0.15);
 
 		// trace("Moving to grid: " + newX + "," + newY);
 		// trace("Moving to position: " + x + "," + y);

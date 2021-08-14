@@ -17,25 +17,35 @@ class PlayState extends FlxState
 	var tiles:List<Tile> = new List<Tile>();
 
 	// Board size in tiles
-	private var choosenImagePath:String;
+	private var choosenImagePath:String = "";
 
-	private var checkWinTimer:Float = 2;
+	private var checkWinTimer:Float = 10;
 
 	override public function create()
 	{
 		var tileGroup = new FlxTypedGroup();
 		// Choose an image from the image list
-		var imagePaths;
+		var imagePaths = [];
+		var imageWidth = 0;
+		var imageHeight = 0;
+		var choosenPath = "";
 
 		if (PuzzleImage.SquareBoard)
+		{
 			imagePaths = [for (path in PuzzleImage.SquareImages.keys()) path];
+			var rng = new FlxRandom().int(0, imagePaths.length - 1);
+			choosenPath = imagePaths[rng];
+			imageWidth = PuzzleImage.SquareImages[choosenPath][0];
+			imageHeight = PuzzleImage.SquareImages[choosenPath][1];
+		}
 		else
+		{
 			imagePaths = [for (path in PuzzleImage.Images.keys()) path];
-
-		var rng = new FlxRandom().int(0, imagePaths.length - 1);
-		var choosenPath = imagePaths[rng];
-		var imageWidth = PuzzleImage.Images[choosenPath][0];
-		var imageHeight = PuzzleImage.Images[choosenPath][1];
+			var rng = new FlxRandom().int(0, imagePaths.length - 1);
+			choosenPath = imagePaths[rng];
+			imageWidth = PuzzleImage.Images[choosenPath][0];
+			imageHeight = PuzzleImage.Images[choosenPath][1];
+		}
 
 		choosenImagePath = choosenPath;
 
@@ -48,31 +58,35 @@ class PlayState extends FlxState
 
 		// Load the image for the puzzle
 		var dummySprite:FlxSprite = new FlxSprite(0, 0);
-		var tileSprite = dummySprite.loadGraphic(choosenPath, true, Tile.TileWidth, Tile.TileHeight);
+		var tileSprite = dummySprite.loadGraphic(choosenImagePath, true, Tile.TileWidth, Tile.TileHeight);
 
 		var emptySquareX:Int = 0;
 		var emptySquareY:Int = 0;
 
 		var tileCoords:List<FlxVector> = new List<FlxVector>();
+		tiles.clear();
+		var setupGrid = gameBoard.grid;
+		var imageTileIndex = 0;
 		// Create every tile
-		for (gX in 0...gameBoard.grid.length)
+		for (gX in 0...setupGrid.length)
 		{
-			for (gY in 0...gameBoard.grid[gX].length)
+			for (gY in 0...setupGrid[gX].length)
 			{
 				if (gameBoard.grid[gY][gX] == false)
 				{
 					emptySquareX = gY;
 					emptySquareY = gX;
-					// tiles.add(null);
+					imageTileIndex++;
 					continue;
 				}
 
 				var currentTile:Tile;
-				currentTile = new Tile(gY, gX, gameBoard, tileSprite, tiles.length);
+				currentTile = new Tile(gY, gX, gameBoard, tileSprite, imageTileIndex);
 
+				imageTileIndex++;
 				// trace("Added tile at  " + gX + "," + gY);
 				tiles.add(currentTile);
-				// tileGroup.add(currentTile);
+				tileGroup.add(currentTile);
 				tileCoords.add(new FlxVector(gY, gX));
 
 				add(currentTile);
@@ -80,12 +94,13 @@ class PlayState extends FlxState
 		}
 		ShuffleTiles(tileCoords);
 
-		FlxG.camera.fade(FlxColor.BLACK, 0.05, true);
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 
 		trace("Empty Square at: " + emptySquareX + "," + emptySquareY);
 
-		/*add(new SettingsUI(300, PuzzleImage.boardSize * Tile.TileHeight + 30, 50, PuzzleImage.boardSize * Tile.TileHeight, 430,
-			PuzzleImage.boardSize * Tile.TileHeight)); */
+		add(new SettingsUI(300, PuzzleImage.boardSize * Tile.TileHeight + 30, 50, PuzzleImage.boardSize * Tile.TileHeight, 430,
+			PuzzleImage.boardSize * Tile.TileHeight + 50));
+		checkWinTimer = 4;
 		super.create();
 	}
 
@@ -94,6 +109,7 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
 		checkWinTimer -= 1 * elapsed;
+		// trace(checkWinTimer);
 		if (CheckWin() && checkWinTimer < 0)
 		{
 			trace("================YOU'VE WON================");

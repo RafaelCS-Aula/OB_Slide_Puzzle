@@ -9,14 +9,14 @@ class Table
 
 	public var height:Int;
 
-	public var grid:Array<Array<Bool>> = [for (x in 0...5) [for (y in 0...5) true]];
+	public var grid:Array<Array<Bool>>; /* = [for (x in 0...5) [for (y in 0...5) true]];*/
 
 	public function new(boardWidth:Int, boardHeight:Int)
 	{
 		this.height = FlxMath.absInt(boardHeight);
 		this.width = FlxMath.absInt(boardWidth);
 
-		grid = [for (x in 0...width - 1) [for (y in 0...height - 1) true]];
+		grid = [for (x in 0...width) [for (y in 0...height) true]];
 
 		// Select a square on the edge of the board
 		var rnd:FlxRandom = new FlxRandom();
