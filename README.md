@@ -6,7 +6,7 @@
 
 Prótotipo de jogo - [Sliding Puzzle](https://en.wikipedia.org/wiki/Sliding_puzzle) - desenvolvido para estágio com câmara de Óbidos.
 
-Para aceder ao jogo aceda á secção de *releases* e descarregue a que pretender.
+Para aceder ao jogo aceda [aqui.](https://rafaelcs-aula.github.io/Obidos_SlidingPuzzle/)
 
 ## Adição de imagens
 
@@ -24,7 +24,7 @@ Imagens são facilmente adicionadas ao jogo:
 
 Prototype of a [Sliding Puzzle](https://en.wikipedia.org/wiki/Sliding_puzzle) game developed for an internship with the government of Obidos.
 
-To play the game go to the *Releases* tab of this repository and download whichever one you prefer.
+To play the game go [here.](https://rafaelcs-aula.github.io/Obidos_SlidingPuzzle/)
 
 ## Adding Images:
 
